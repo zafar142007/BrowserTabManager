@@ -22,3 +22,6 @@ h3,
 p {
   margin: 0;
 }
+hr.dashed {
+  border-top: 3px dashed #bbb;
+}

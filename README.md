@@ -4,4 +4,5 @@ To install the chrome extension, follow https://developer.chrome.com/docs/extens
 
 Features supported:
 1. By entering the domain name, the extension will be able to kill all tabs of that domain from the Chrome window.
+2. See the number of tabs grouped by their domain in decreasing order of count.
 

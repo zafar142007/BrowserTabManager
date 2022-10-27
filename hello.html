@@ -10,14 +10,21 @@
     <form>
     URL prefix <input type="text" id="urlPrefix" required />
     <br>
-    <input type="submit">Close all tabs with this prefix</input>
+    <input type="submit" value ="Close all tabs with this prefix" />
     <ul></ul>
   </form>
+
+  <button id="topTabs">Get Top 5 tabs</button>
+  <div id ="topXTabs">
+    
+  </div>
   
-  <p id = "infoPara"  style = "visibility:hidden">
+  <div id = "infoPara"  style = "visibility:hidden">
     <label id ="info"/>
     <br>
-  </p>
+  </div>
+
+
   <script src="popup.js" type="module"></script>
   </body>
 </html>

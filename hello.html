@@ -7,19 +7,31 @@
     <link rel="stylesheet" href="./popup.css" />
   </head>
   <body>
-    <form>
     URL prefix <input type="text" id="urlPrefix" required />
     <br>
-    <input type="submit" value ="Close all tabs with this prefix" />
-    <ul></ul>
-  </form>
+    <button id="urlPrefixButton">Close all tabs with this prefix </button>
+
+<hr class="dashed">
 
   <button id="topTabs">Get Top 5 tabs</button>
   <div id ="topXTabs">
     
   </div>
-  
+<hr class="dashed">
+
+  Search in tab titles <input type="text" id="searchQuery" required />
+  <br>
+  <button  id="searchButton">Search in all tab titles </button>
+
+  <div id="searchResults">
+
+  </div>
+
+
+
   <div id = "infoPara"  style = "visibility:hidden">
+  <hr class="dashed">
+    
     <label id ="info"/>
     <br>
   </div>

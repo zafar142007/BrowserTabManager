@@ -1,5 +1,16 @@
 var url=document.querySelector("#urlPrefix");
 url.focus();
+
+const x =5;
+
+var topTabsButton = document.querySelector("#topTabs")
+topTabsButton.addEventListener("click", async () => {
+  let map = new Map();
+  getTopTabs();
+  
+});
+
+
 const form = document.querySelector("form");
 form.addEventListener("submit", async () => {
   document.getElementById("infoPara").style.visibility = "hidden";
@@ -45,6 +56,49 @@ form.addEventListener("submit", async () => {
      throw error;
    }
 });
+function getTopTabs(){
+  chrome.tabs.query(
+      {
+        url: "<all_urls>" 
+      }, function (tabs) {
+        let map = new Map();
+          
+        for (let tab in tabs) {
+          var domain;
+          try{
+            domain = new URL(tabs[tab].url)
+          }catch(error) {
+            continue;
+          }
+          let h=domain.hostname;
+          if(map.has(h)){
+            map.set(h, map.get(h)+1)
+          } else {
+            map.set(h,1);
+          }
+        }
+        map = new Map([...map].sort((a, b) => {
+           if (a[1] > b[1]) return -1;
+           if (a[1] == b[1]) return 0;
+           if (a[1] < b[1]) return 1;
+        }))
+
+        const div = document.getElementById("topXTabs");
+        var html = "";
+        let i =0;
+        map.forEach (function(value, key) {
+           if(i>=x){ 
+             return;
+           }
+          html += key + ' = ' + value + "<br>";
+          i++
+        })
+
+        div.innerHTML=html;
+      }
+  )
+}
+
 
 function updateInfo(isVisible, text) {
   document.getElementById("info").innerHTML = text;

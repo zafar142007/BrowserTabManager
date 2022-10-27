@@ -1,18 +1,29 @@
+//Don't use forms as they cause unnecessary reloading of the popup
+
 var url=document.querySelector("#urlPrefix");
 url.focus();
 
-const x =5;
+const highestOpenedTabs =5;
+const searchResults = 5;
 
 var topTabsButton = document.querySelector("#topTabs")
 topTabsButton.addEventListener("click", async () => {
   let map = new Map();
   getTopTabs();
-  
 });
 
 
-const form = document.querySelector("form");
-form.addEventListener("submit", async () => {
+const searchButton = document.querySelector("#searchButton");
+searchButton.addEventListener("click", async () => {
+  let searchQ = document.getElementById("searchQuery");
+  if(searchQ=='')
+    return;
+  searchInTabTitles(searchQ.value)
+});
+
+
+const urlPrefixButton = document.querySelector("#urlPrefixButton");
+urlPrefixButton.addEventListener("click", async () => {
   document.getElementById("infoPara").style.visibility = "hidden";
   var urlPrefix=document.querySelector("#urlPrefix").value;
   if (urlPrefix!='' && !urlPrefix.startsWith("https://") && !urlPrefix.startsWith("http://")){
@@ -87,7 +98,7 @@ function getTopTabs(){
         var html = "";
         let i =0;
         map.forEach (function(value, key) {
-           if(i>=x){ 
+           if(i>=highestOpenedTabs){ 
              return;
            }
           html += key + ' = ' + value + "<br>";
@@ -97,6 +108,38 @@ function getTopTabs(){
         div.innerHTML=html;
       }
   )
+}
+
+function searchInTabTitles(searchQ){
+  chrome.tabs.query(
+      {
+        title: "*"+searchQ+"*" 
+      }, function (tabs) {
+
+        let i = 0;
+        let html="Top 3 results <br>"
+        
+        const div = document.getElementById("searchResults");
+        div.innerHTML='';
+        for (let tab in tabs) {
+          if (i>=searchResults){
+            break;
+          }
+          
+          let label=document.createElement("label");
+          label.dataset.id=tabs[tab].id;
+          label.innerHTML =tabs[tab].title;
+          div.appendChild(label)
+          div.appendChild(document.createElement("br"))
+          label.addEventListener("click",  async () => {
+        
+            chrome.tabs.update(parseInt(label.dataset.id), {highlighted: true, active:true}, function(tab){});
+          
+          })
+          i++;
+        }
+
+      })
 }
 
 

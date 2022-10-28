@@ -1,14 +1,18 @@
 //Don't use forms as they cause unnecessary reloading of the popup
 
+//Config
+const highestOpenedTabs =10;//number of tabs to be shown when getting top tabs by domain count
+const searchResults = 10;
+
+
 var url=document.querySelector("#urlPrefix");
 url.focus();
 
-const highestOpenedTabs =5;
-const searchResults = 5;
 
 var topTabsButton = document.querySelector("#topTabs")
 topTabsButton.addEventListener("click", async () => {
   let map = new Map();
+  updateInfo("hidden", "");
   getTopTabs();
 });
 
@@ -16,7 +20,9 @@ topTabsButton.addEventListener("click", async () => {
 const searchButton = document.querySelector("#searchButton");
 searchButton.addEventListener("click", async () => {
   let searchQ = document.getElementById("searchQuery");
-  if(searchQ=='')
+  updateInfo("hidden", "");
+
+  if(searchQ.value=='' || searchQ.value==null)
     return;
   searchInTabTitles(searchQ.value)
 });
@@ -41,7 +47,7 @@ urlPrefixButton.addEventListener("click", async () => {
             console.log("closing "+ tabsToClose.length.toString() + " tabs")
             chrome.tabs.remove(
               tabsToClose , () => {
-                 updateInfo("visible",  "Closed "+ tabsToClose.length.toString() + " tabs")
+                updateInfo("visible",  "Closed "+ tabsToClose.length.toString() + " tabs")
                 sleeping(2000);     
 
               } 
@@ -94,19 +100,34 @@ function getTopTabs(){
            if (a[1] < b[1]) return 1;
         }))
 
-        const div = document.getElementById("topXTabs");
-        var html = "";
+        const table = document.getElementById("topXTabs");
         let i =0;
+        if(tabs.length>0){
+          table.innerHTML="";
+          let tr=document.createElement("tr");
+          let td1= document.createElement("th")
+          let td2= document.createElement("th")
+          td1.innerHTML="Count"
+          td2.innerHTML="Domain"
+          tr.appendChild(td1)
+          tr.appendChild(td2)
+          table.appendChild(tr)
+        }
         map.forEach (function(value, key) {
            if(i>=highestOpenedTabs){ 
              return;
            }
-          html += key + ' = ' + value + "<br>";
-          i++
+           let tr=document.createElement("tr");
+           let td1= document.createElement("td")
+           let td2= document.createElement("td")
+           td1.innerHTML=value
+           td2.innerHTML=key
+           tr.appendChild(td1)
+           tr.appendChild(td2)
+           table.appendChild(tr)
+           i++
         })
-
-        div.innerHTML=html;
-      }
+     }
   )
 }
 
@@ -117,20 +138,28 @@ function searchInTabTitles(searchQ){
       }, function (tabs) {
 
         let i = 0;
-        let html="Top 3 results <br>"
+        let html="Showing "+Math.min(tabs.length, searchResults).toString()+" results out of "+tabs.length.toString()
         
-        const div = document.getElementById("searchResults");
-        div.innerHTML='';
+        const list = document.getElementById("searchResults");
+        list.innerHTML='';
+        if(tabs.length ==0){
+          updateInfo("visible", "No results found!");
+          sleeping(2000);
+          return
+        }
+        let l= document.createElement("h3")
+        l.innerHTML=html
+        list.appendChild(l)
+ 
         for (let tab in tabs) {
           if (i>=searchResults){
             break;
           }
           
-          let label=document.createElement("label");
+          let label=document.createElement("li");
           label.dataset.id=tabs[tab].id;
           label.innerHTML =tabs[tab].title;
-          div.appendChild(label)
-          div.appendChild(document.createElement("br"))
+          list.appendChild(label)
           label.addEventListener("click",  async () => {
         
             chrome.tabs.update(parseInt(label.dataset.id), {highlighted: true, active:true}, function(tab){});

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+  <body>
+    URL prefix <input type="text" id="urlPrefix" required />
+    <br>
+    <button id="urlPrefixButton">Close all tabs with this prefix </button>
+
+<hr class="dashed">
+
+  <button id="topTabs">Get Top tabs by domain count</button>
+  <table id ="topXTabs">
+    
+  </table>
+<hr class="dashed">
+
+  Search query <input type="text" id="searchQuery" required />
+  <br>
+  <button  id="searchButton">Search in all tab titles </button>
+
+  <ul id="searchResults" >
+
+  </ul>
+
+
+
+  <div id = "infoPara"  style = "visibility:hidden">
+  <hr class="dashed">
+    
+    <label id ="info"/>
+    <br>
+  </div>
+
+
+  <script src="popup.js" type="module"></script>
+  </body>
+</html>

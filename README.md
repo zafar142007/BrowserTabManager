@@ -1,4 +1,4 @@
-# BrowserTabManager
+# Tab Busy Bee
 Utilities for managing the ever increasing tabs of my browser.
 To install the chrome extension, follow https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked
 

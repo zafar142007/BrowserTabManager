@@ -34,6 +34,8 @@ urlPrefixButton.addEventListener("click", async () => {
   var urlPrefix=document.querySelector("#urlPrefix").value;
   if (urlPrefix!='' && !urlPrefix.startsWith("https://") && !urlPrefix.startsWith("http://")){
     urlPrefix = "https://".concat(urlPrefix).concat( "/*");
+  } else if (urlPrefix == "" || urlPrefix == null) {
+    return;
   }
   try {
     chrome.tabs.query(

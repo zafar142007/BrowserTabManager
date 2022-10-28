@@ -1,13 +1,16 @@
 {
   "manifest_version": 3,
-  "name": "BrowserTabManager",
-  "description": "Manages tabs",
+  "name": "Tab Busy Bee",
+  "description": "Tab manager for busy bees. Provides utilities like closing tabs by specifying domain (website) name, finding the most common tabs grouped by their domain (website) names, and searching for tabs with tab title text.",
   "version": "1.0",
   "permissions": [
     "tabs"
   ],
+  "icons": {
+    "128": "icon128.png"
+  },
   "action": {
-    "default_popup": "hello.html",
-    "default_icon": "hello_extensions.png"
+    "default_popup": "extension.html",
+    "default_icon": "icon128.png"
   }
 }

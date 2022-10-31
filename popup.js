@@ -134,6 +134,7 @@ function getTopTabs(){
 }
 
 function searchInTabTitles(searchQ){
+
   chrome.tabs.query(
       {
         title: "*"+searchQ+"*" 
@@ -169,6 +170,8 @@ function searchInTabTitles(searchQ){
           })
           i++;
         }
+        updateInfo("visible", "Click on any list item above to bring that tab into focus");
+        sleeping(2000);
 
       })
 }

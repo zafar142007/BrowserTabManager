@@ -16,6 +16,16 @@ topTabsButton.addEventListener("click", async () => {
   getTopTabs();
 });
 
+let searchQ = document.getElementById("searchQuery");
+searchQ.addEventListener("keypress", function(event){
+  if (event.key === "Enter") {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("searchButton").click();
+  }
+})
+
 
 const searchButton = document.querySelector("#searchButton");
 searchButton.addEventListener("click", async () => {
